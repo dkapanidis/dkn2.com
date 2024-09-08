@@ -81,7 +81,7 @@ export function Shows() {
                             />
                             <div className="flex flex-col">
                                 <div className="flex items-center h-9">
-                                    <div className="ml-2 flex-auto w-52">
+                                    <div className="ml-2 flex-auto w-60">
                                         <p className="text-xs font-medium text-gray-600">{show.title}</p>
                                     </div>
                                     {/* <div className="flex items-center">
