@@ -12,6 +12,7 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart"
+import { ExternalLinkIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
@@ -141,7 +142,7 @@ export function Component() {
                             tickLine={false}
                             tickMargin={10}
                             axisLine={false}
-                            tickFormatter={(value) => {return `${value} km`}}
+                            tickFormatter={(value) => { return `${value} km` }}
                         />
                         <ChartTooltip
                             cursor={false}
@@ -163,6 +164,10 @@ export function Component() {
                         </Bar>
                     </BarChart>
                 </ChartContainer>
+                <div className="flex">
+                    <a target="_blank" href="https://www.strava.com/athletes/118222457" className="text-xs text-muted-foreground flex items-center gap-1">Strava<ExternalLinkIcon size={10} className="text-xs text-gray-400" /></a>
+                    <div className="flex-grow"/>
+                </div>
             </CardContent>
         </Card>
     )
