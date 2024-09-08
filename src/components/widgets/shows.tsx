@@ -6,15 +6,8 @@ import {
     CardHeader,
     CardTitle
 } from "@/components/ui/card"
-import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
-} from "@/components/ui/chart"
+import { ExternalLinkIcon } from "lucide-react"
 import { useEffect, useState } from "react"
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
-import { Progress } from "@/components/ui/progress"
 import { HappyFace, NeutralFace, SadFace, SmilingFace } from "../ui/rating"
 
 type Show = {
@@ -105,7 +98,10 @@ export function Shows() {
                             </div>
                         </div>
                     )}
-
+                <div className="flex pt-6">
+                    <a target="_blank" href="https://trakt.tv/users/dkn2" className="text-xs text-muted-foreground flex items-center gap-1">Trakt<ExternalLinkIcon size={10} className="text-xs text-gray-400" /></a>
+                    <div className="flex-grow"/>
+                </div>
             </CardContent>
         </Card>
     )
