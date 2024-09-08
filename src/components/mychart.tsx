@@ -80,9 +80,8 @@ export function Component() {
 
     return (
         <Card className="">
-            <CardHeader>
-                <CardTitle>Distance Per Month</CardTitle>
-                <CardDescription>Aggregated by month</CardDescription>
+            <CardHeader className="w-96">
+                <CardTitle>Running distance</CardTitle>                
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig}>
