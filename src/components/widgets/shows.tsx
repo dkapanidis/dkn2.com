@@ -98,7 +98,7 @@ export function Shows() {
                             </div>
                         </div>
                     )}
-                <div className="flex pt-6">
+                <div className="flex pt-4">
                     <a target="_blank" href="https://trakt.tv/users/dkn2" className="text-xs text-muted-foreground flex items-center gap-1">Trakt<ExternalLinkIcon size={10} className="text-xs text-gray-400" /></a>
                     <div className="flex-grow"/>
                 </div>

@@ -164,7 +164,7 @@ export function Component() {
                         </Bar>
                     </BarChart>
                 </ChartContainer>
-                <div className="flex">
+                <div className="flex pt-4">
                     <a target="_blank" href="https://www.strava.com/athletes/118222457" className="text-xs text-muted-foreground flex items-center gap-1">Strava<ExternalLinkIcon size={10} className="text-xs text-gray-400" /></a>
                     <div className="flex-grow"/>
                 </div>
