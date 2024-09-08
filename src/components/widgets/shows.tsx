@@ -71,7 +71,7 @@ export function Shows() {
                 <CardTitle>Watching Shows</CardTitle>
             </CardHeader>
             <CardContent>
-                {traktData.map((show, index) =>
+                {traktData.filter(v => v.url!= undefined).map((show, index) =>
                     <div key={index} className="flex items-center justify-between py-2">
                         <div className="flex items-center bg-gray-100 rounded-sm pr-2">
                             {show.url != undefined && <img
