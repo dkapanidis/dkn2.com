@@ -30,7 +30,7 @@ type MonthSummary = {
 }
 
 // Fetch and process the data
-const fetchStravaData = async () => {
+const fetchStravaData = async (): Promise<MonthSummary[]> => {
     const response = await fetch(
         "https://raw.githubusercontent.com/dkapanidis/life-stats/main/data/strava/summary.json"
     )
@@ -39,11 +39,13 @@ const fetchStravaData = async () => {
     // Create a Date object for the current date
     const currentDate = new Date()
 
+    var summary: MonthSummary[] = []
+
     // Create a map to hold the aggregated data for the last 12 months
     const aggregatedData = new Map<string, number>()
 
     // Initialize the map with the last 12 months and a distance of 0
-    for (let i = 0; i < 12; i++) {
+    for (let i = 11; i >=0; i--) {
         const monthDate = new Date(currentDate)
         monthDate.setMonth(currentDate.getMonth() - i)
         const monthKey = monthDate.toLocaleString("en-US", {
@@ -59,15 +61,16 @@ const fetchStravaData = async () => {
             })
             return month == monthKey
         }).map(f => f.distance).reduce((acc, v) => acc + v, 0)
+
+        summary.push({
+            month: monthKey,
+            distance: parseFloat((res / 1000).toFixed(1)),
+        })
     
         aggregatedData.set(monthKey, res)
     }
 
-    // Convert the map to an array and return it
-    return Array.from(aggregatedData, ([month, distance]) => ({
-        month,
-        distance: parseFloat((distance / 1000).toFixed(1)),
-    })).reverse()
+    return summary
 }
 
 export function Component() {
@@ -98,7 +101,9 @@ export function Component() {
                             dataKey="month"
                             tickLine={false}
                             tickMargin={10}
+                            interval={0}
                             axisLine={false}
+                            fontSize={10}
                             tickFormatter={(value) => value.slice(0, 3)}
                         />
                         <ChartTooltip
