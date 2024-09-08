@@ -22,7 +22,7 @@ import {
 // Fetch and process the data
 const fetchStravaData = async () => {
     const response = await fetch(
-        "https://raw.githubusercontent.com/dkapanidis/life-stats/main/strava_data_20240820.json"
+        "https://raw.githubusercontent.com/dkapanidis/life-stats/main/data/strava/summary.json"
     )
     const data = await response.json()
 
