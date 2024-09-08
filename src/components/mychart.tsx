@@ -13,7 +13,7 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart"
 import { useEffect, useState } from "react"
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
 type Running = {
     start_date: string
@@ -134,6 +134,13 @@ export function Component() {
                             axisLine={false}
                             fontSize={10}
                             tickFormatter={(value) => value.slice(0, 3)}
+                        />
+                        <YAxis
+                            dataKey="distance"
+                            tickLine={false}
+                            tickMargin={10}
+                            axisLine={false}
+                            tickFormatter={(value) => {return `${value} km`}}
                         />
                         <ChartTooltip
                             cursor={false}
