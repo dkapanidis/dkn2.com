@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { TrendingUp } from "lucide-react"
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts"
 
 import {
     Card,
@@ -30,7 +30,7 @@ const fetchStravaData = async () => {
     const currentDate = new Date()
 
     // Create a map to hold the aggregated data for the last 12 months
-    const aggregatedData = new Map()
+    const aggregatedData = new Map<string, number>()
 
     // Initialize the map with the last 12 months and a distance of 0
     for (let i = 0; i < 12; i++) {
@@ -59,7 +59,7 @@ const fetchStravaData = async () => {
     // Convert the map to an array and return it
     return Array.from(aggregatedData, ([month, distance]) => ({
         month,
-        distance,
+        distance: parseFloat((distance / 1000).toFixed(1)),
     })).reverse()
 }
 
@@ -99,33 +99,39 @@ export function Component() {
                             cursor={false}
                             content={
                                 <ChartTooltipContent
-                                    formatter={(value, name) => {
-                                        const distanceInKm = (value as number / 1000).toFixed(1); // Convert to km and fix to 1 decimal place
-                                        return (
-                                            <div className="flex min-w-[130px] items-center text-xs text-muted-foreground">
-                                                {chartConfig[name as keyof typeof chartConfig]?.label ||
-                                                    name}
-                                                <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
-                                                    {distanceInKm}
-                                                    <span className="font-normal text-muted-foreground">
-                                                        km
-                                                    </span>
-                                                </div>
+                                    formatter={(value, name) => (
+                                        <div className="flex min-w-[130px] items-center text-xs text-muted-foreground">
+                                            {chartConfig[name as keyof typeof chartConfig]?.label ||
+                                                name}
+                                            <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
+                                                {value}
+                                                <span className="font-normal text-muted-foreground">
+                                                    km
+                                                </span>
                                             </div>
-                                        )
-                                    }}
+                                        </div>
+                                    )
+                                    }
                                 />
                             }
                         />
-                        <Bar dataKey="distance" fill="var(--color-distance)" radius={8} />
+                        <Bar dataKey="distance" fill="var(--color-distance)" radius={4}>
+                            <LabelList
+                                position="top"
+                                formatter={(v: number) => {
+                                    if (v == 0) {
+                                        return ""
+                                    }
+                                    else {
+                                        return v
+                                    }
+                                }}
+                                fontSize={8}
+                            />
+                        </Bar>
                     </BarChart>
                 </ChartContainer>
             </CardContent>
-            <CardFooter className="flex-col items-start gap-2 text-sm">
-                <div className="leading-none text-muted-foreground">
-                    Showing total distance for the last months
-                </div>
-            </CardFooter>
         </Card>
     )
 }
