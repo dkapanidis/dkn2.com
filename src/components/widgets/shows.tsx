@@ -57,12 +57,12 @@ export function Shows() {
     const [traktData, setTraktData] = useState<Show[]>([])
 
     useEffect(() => {
-        fetchTraktData().then(data => setTraktData(data.sort((a, b) => { 
+        fetchTraktData().then(data => setTraktData(data.sort((a, b) => {
             if (b.rating == undefined) {
                 return -100;
             }
             return b.rating - a.rating
-         })))
+        })))
     }, [])
 
     return (
@@ -71,37 +71,40 @@ export function Shows() {
                 <CardTitle>Watching Shows</CardTitle>
             </CardHeader>
             <CardContent>
-                {traktData.filter(v => v.url!= undefined).map((show, index) =>
-                    <div key={index} className="flex items-center justify-between py-2">
-                        <div className="flex items-center bg-gray-100 rounded-sm pr-2">
-                            {show.url != undefined && <img
-                                src={show.url}
-                                alt={show.title}
-                                className="w-20 h-10 rounded-s-sm object-cover object-center"
-                            /> || <div className="w-20"/>}
-                            <div className="flex flex-col">
-                                <div className="flex items-center h-9">
-                                    <div className="ml-2 flex-auto w-52">
-                                        <p className="text-xs font-medium text-gray-600">{show.title}</p>
-                                    </div>
+                {traktData
+                    .filter(v => !!v.url)
+                    .filter(v => !!v.rating)
+                    .map((show, index) =>
+                        <div key={index} className="flex items-center justify-between py-2">
+                            <div className="flex items-center bg-gray-100 rounded-sm pr-2">
+                                {show.url != undefined && <img
+                                    src={show.url}
+                                    alt={show.title}
+                                    className="w-20 h-10 rounded-s-sm object-cover object-center"
+                                /> || <div className="w-20" />}
+                                <div className="flex flex-col">
+                                    <div className="flex items-center h-9">
+                                        <div className="ml-2 flex-auto w-52">
+                                            <p className="text-xs font-medium text-gray-600">{show.title}</p>
+                                        </div>
 
-                                    <div className="flex items-center w-8">
-                                        {show.rating <= 5 && <SadFace />}
-                                        {show.rating > 5 && show.rating <= 7 && <NeutralFace />}
-                                        {show.rating > 7 && show.rating <= 9 && <SmilingFace />}
-                                        {show.rating == 10 && <HappyFace />}
+                                        <div className="flex items-center w-8">
+                                            {show.rating <= 5 && <SadFace />}
+                                            {show.rating > 5 && show.rating <= 7 && <NeutralFace />}
+                                            {show.rating > 7 && show.rating <= 9 && <SmilingFace />}
+                                            {show.rating == 10 && <HappyFace />}
+                                        </div>
                                     </div>
-                                </div>
-                                {/* <Progress
+                                    {/* <Progress
                                     value={0.4 * 100}
                                     style={{ backgroundColor: "transparent" }} // Customize background color here
                                     className="h-px rounded-none w-32 text-green-800"
                                 >
                                 </Progress> */}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                )}
+                    )}
 
             </CardContent>
         </Card>
