@@ -1,15 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { TrendingUp } from "lucide-react"
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts"
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
     CardHeader,
-    CardTitle,
+    CardTitle
 } from "@/components/ui/card"
 import {
     ChartConfig,
@@ -17,6 +12,8 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart"
+import { useEffect, useState } from "react"
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 
 type Running = {
     start_date: string
