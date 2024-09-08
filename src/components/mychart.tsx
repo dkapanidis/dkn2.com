@@ -19,12 +19,22 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart"
 
+type Running = {
+    start_date: string
+    distance: number
+}
+
+type MonthSummary = {
+    month: string
+    distance: number
+}
+
 // Fetch and process the data
 const fetchStravaData = async () => {
     const response = await fetch(
         "https://raw.githubusercontent.com/dkapanidis/life-stats/main/data/strava/summary.json"
     )
-    const data = await response.json()
+    const data: Running[] = await response.json()
 
     // Create a Date object for the current date
     const currentDate = new Date()
@@ -40,21 +50,18 @@ const fetchStravaData = async () => {
             month: "long",
             year: "numeric",
         })
-        aggregatedData.set(monthKey, 0)
+
+        var res = data.filter(v => {
+            const date = new Date(v.start_date)
+            const month = date.toLocaleString("en-US", {
+                month: "long",
+                year: "numeric",
+            })
+            return month == monthKey
+        }).map(f => f.distance).reduce((acc, v) => acc + v, 0)
+    
+        aggregatedData.set(monthKey, res)
     }
-
-    // Aggregate the distances from the fetched data
-    data.forEach((curr: any) => {
-        const date = new Date(curr.start_date)
-        const month = date.toLocaleString("en-US", {
-            month: "long",
-            year: "numeric",
-        })
-
-        if (aggregatedData.has(month)) {
-            aggregatedData.set(month, aggregatedData.get(month) + curr.distance)
-        }
-    })
 
     // Convert the map to an array and return it
     return Array.from(aggregatedData, ([month, distance]) => ({
@@ -81,7 +88,7 @@ export function Component() {
     return (
         <Card className="">
             <CardHeader className="w-96">
-                <CardTitle>Running distance</CardTitle>                
+                <CardTitle>Running distance</CardTitle>
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig}>
