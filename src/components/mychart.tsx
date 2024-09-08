@@ -22,47 +22,47 @@ import {
 // Fetch and process the data
 const fetchStravaData = async () => {
     const response = await fetch(
-      "https://raw.githubusercontent.com/dkapanidis/life-stats/main/strava_data_20240820.json"
+        "https://raw.githubusercontent.com/dkapanidis/life-stats/main/strava_data_20240820.json"
     )
     const data = await response.json()
-  
+
     // Create a Date object for the current date
     const currentDate = new Date()
-  
+
     // Create a map to hold the aggregated data for the last 12 months
     const aggregatedData = new Map()
-  
+
     // Initialize the map with the last 12 months and a distance of 0
     for (let i = 0; i < 12; i++) {
-      const monthDate = new Date(currentDate)
-      monthDate.setMonth(currentDate.getMonth() - i)
-      const monthKey = monthDate.toLocaleString("en-US", {
-        month: "long",
-        year: "numeric",
-      })
-      aggregatedData.set(monthKey, 0)
+        const monthDate = new Date(currentDate)
+        monthDate.setMonth(currentDate.getMonth() - i)
+        const monthKey = monthDate.toLocaleString("en-US", {
+            month: "long",
+            year: "numeric",
+        })
+        aggregatedData.set(monthKey, 0)
     }
-  
+
     // Aggregate the distances from the fetched data
     data.forEach((curr: any) => {
-      const date = new Date(curr.start_date)
-      const month = date.toLocaleString("en-US", {
-        month: "long",
-        year: "numeric",
-      })
-  
-      if (aggregatedData.has(month)) {
-        aggregatedData.set(month, aggregatedData.get(month) + curr.distance)
-      }
+        const date = new Date(curr.start_date)
+        const month = date.toLocaleString("en-US", {
+            month: "long",
+            year: "numeric",
+        })
+
+        if (aggregatedData.has(month)) {
+            aggregatedData.set(month, aggregatedData.get(month) + curr.distance)
+        }
     })
-  
+
     // Convert the map to an array and return it
     return Array.from(aggregatedData, ([month, distance]) => ({
-      month,
-      distance,
+        month,
+        distance,
     })).reverse()
-  }
-  
+}
+
 export function Component() {
     const [chartData, setChartData] = useState<{ month: string; distance: number }[]>([])
 
@@ -97,7 +97,25 @@ export function Component() {
                         />
                         <ChartTooltip
                             cursor={false}
-                            content={<ChartTooltipContent />}
+                            content={
+                                <ChartTooltipContent
+                                    formatter={(value, name) => {
+                                        const distanceInKm = (value as number / 1000).toFixed(1); // Convert to km and fix to 1 decimal place
+                                        return (
+                                            <div className="flex min-w-[130px] items-center text-xs text-muted-foreground">
+                                                {chartConfig[name as keyof typeof chartConfig]?.label ||
+                                                    name}
+                                                <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
+                                                    {distanceInKm}
+                                                    <span className="font-normal text-muted-foreground">
+                                                        km
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        )
+                                    }}
+                                />
+                            }
                         />
                         <Bar dataKey="distance" fill="var(--color-distance)" radius={8} />
                     </BarChart>
