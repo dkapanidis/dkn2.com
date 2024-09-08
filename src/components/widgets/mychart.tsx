@@ -68,6 +68,7 @@ const fetchStravaData = async (timePeriod: TimePeriod): Promise<MonthSummary[]> 
         // calculate the period key (month + year for monthly, week number for weekly, day + month + year for daily)
         const periodDate = new Date(currentDate)
         if (timePeriod === "monthly") {
+            periodDate.setDate(1)
             periodDate.setMonth(currentDate.getMonth() - i)
         } else {
             periodDate.setDate(currentDate.getDate() - (i * (timePeriod === "weekly" ? 7 : 1)))
