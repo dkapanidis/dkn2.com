@@ -81,11 +81,11 @@ export function Shows() {
                             />
                             <div className="flex flex-col">
                                 <div className="flex items-center h-9">
-                                    <div className="ml-2 flex-auto w-60">
+                                    <div className="ml-2 flex-auto w-52">
                                         <p className="text-xs font-medium text-gray-600">{show.title}</p>
                                     </div>
 
-                                    <div className="flex items-center w-7">
+                                    <div className="flex items-center w-8">
                                         {show.rating <= 5 && <SadFace />}
                                         {show.rating > 5 && show.rating <= 7 && <NeutralFace />}
                                         {show.rating > 7 && show.rating <= 9 && <SmilingFace />}
