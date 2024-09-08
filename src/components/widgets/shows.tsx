@@ -71,14 +71,14 @@ export function Shows() {
                 <CardTitle>Watching Shows</CardTitle>
             </CardHeader>
             <CardContent>
-                {traktData.filter((s) => s.url != undefined).map((show, index) =>
+                {traktData.map((show, index) =>
                     <div key={index} className="flex items-center justify-between py-2">
                         <div className="flex items-center bg-gray-100 rounded-sm pr-2">
-                            <img
+                            {show.url != undefined && <img
                                 src={show.url}
                                 alt={show.title}
                                 className="w-20 h-10 rounded-s-sm object-cover object-center"
-                            />
+                            /> || <div className="w-20"/>}
                             <div className="flex flex-col">
                                 <div className="flex items-center h-9">
                                     <div className="ml-2 flex-auto w-52">
