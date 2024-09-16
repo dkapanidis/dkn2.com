@@ -36,9 +36,18 @@ const getMonthKey = (date: Date): string => {
 }
 
 const getWeekKey = (date: Date): string => {
-    const week = Math.ceil(date.getDate() / 7)
-    return `${date.toLocaleString("en-US", { month: "short", year: "numeric" })} W${week}`
-}
+    // Adjust date to align week with Monday as the first day of the week
+    const day = date.getDay();
+    const adjustedDate = new Date(date);
+    const dayOfMonth = date.getDate();
+    const dayAdjustment = day === 0 ? 6 : day - 1; // Convert Sunday (0) to last day (6), Monday becomes 0
+    adjustedDate.setDate(dayOfMonth - dayAdjustment);
+
+    // Now calculate the week number
+    const week = Math.ceil(adjustedDate.getDate() / 7);
+    
+    return `${adjustedDate.toLocaleString("en-US", { month: "short", year: "numeric" })} W${week}`;
+};
 
 const getDayKey = (date: Date): string => {
     return date.toLocaleString("en-US", {
