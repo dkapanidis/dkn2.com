@@ -7,6 +7,7 @@ import {
     CardTitle
 } from "@/components/ui/card"
 import { ExternalLinkIcon } from "lucide-react"
+import Image from "next/image"
 import { useEffect, useState } from "react"
 import { HappyFace, NeutralFace, SadFace, SmilingFace } from "../ui/rating"
 
@@ -35,8 +36,6 @@ const getDayKey = (date: Date): string => {
         year: "numeric",
     })
 }
-
-// Fetch and process the data
 
 // Fetch and process the data
 const fetchTraktData = async (): Promise<Show[]> => {
@@ -70,9 +69,11 @@ export function Shows() {
                     .map((show, index) =>
                         <div key={index} className="flex items-center justify-between py-2">
                             <div className="flex items-center bg-gray-100 rounded-sm pr-2">
-                                {show.url != undefined && <img
+                                {show.url != undefined && <Image
                                     src={show.url}
                                     alt={show.title}
+                                    width={80}
+                                    height={40}
                                     className="w-20 h-10 rounded-s-sm object-cover object-center"
                                 /> || <div className="w-20" />}
                                 <div className="flex flex-col">
