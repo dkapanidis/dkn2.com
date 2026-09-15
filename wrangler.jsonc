@@ -1,0 +1,11 @@
+{
+  "name": "www-dkn2-com",
+  "compatibility_date": "2026-09-14",
+  // No Worker script: asset requests are free and unmetered.
+  "assets": {
+    "directory": "./out",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "routes": [{ "pattern": "www.dkn2.com", "custom_domain": true }]
+}
